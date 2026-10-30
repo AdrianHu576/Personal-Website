@@ -15,8 +15,9 @@ window.SITE = {
     },
 
     // Paragraphs may contain inline HTML (<strong>, <a>, <em>).
+    // Add class="marked" to a <strong> or <span> to get a hand-drawn underline under it.
     bio: [
-        "I am a junior undergraduate studying <strong>Computer Science</strong> at the University of Michigan. My research focuses on <strong>robot motion planning</strong> through the lens of <strong>mixed-integer and convex optimization</strong>, with applications to multi-agent and tethered robot systems.",
+        "I am a junior undergraduate studying <strong>Computer Science</strong> at the University of Michigan. My research focuses on <strong class=\"marked\">robot motion planning</strong> through the lens of <strong>mixed-integer and convex optimization</strong>, with applications to multi-agent and tethered robot systems.",
         "This is placeholder text. Add advisors, labs, or anything else you'd like visitors to know, for example <a href=\"#\">a link to your lab</a>.",
     ],
 
@@ -51,6 +52,7 @@ window.SITE = {
     ],
 
     // status: "review" or "progress" (matches the tabs on the page)
+    // figure: shown on the card; sim: shown on hover/tap (optional)
     publications: [
         {
             status: "review",
@@ -59,6 +61,8 @@ window.SITE = {
             venue: "Submitted to IEEE Robotics and Automation Letters (RA-L)",
             pdf: "#",
             link: "#",
+            figure: "assets/papers/mcmp-illus.jpg",
+            sim: "assets/papers/mcmp-sim.gif",
         },
         {
             status: "review",
@@ -67,6 +71,8 @@ window.SITE = {
             venue: "Submitted to IEEE International Conference on Robotics and Automation (ICRA)",
             pdf: "#",
             link: "#",
+            figure: "assets/papers/tmicp-illus.jpg",
+            sim: "assets/papers/tmicp-sim.gif",
         },
         {
             status: "progress",
@@ -84,6 +90,8 @@ window.SITE = {
             ["EECS 485", "Web Systems"],
             ["EECS 491", "Introduction to Distributed Systems"],
         ],
+        // Shown before "Show all"; the rest stay folded on the webpage (the CV lists all).
+        featured: ["EECS 203", "MATH 217", "EECS 216", "EECS 281", "EECS 301", "EECS 445"],
         completed: [
             ["ENGR 151", "Accelerated Intro to Computers and Programming"],
             ["MATH 156", "Applied Honors Calculus II"],
