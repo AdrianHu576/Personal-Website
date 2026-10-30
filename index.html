@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adrian Hu | Undergraduate Student</title>
+    <meta name="author" content="Adrian Hu">
+    <meta name="description" content="Adrian Hu, undergraduate Computer Science student at the University of Michigan.">
+    <meta name="color-scheme" content="light dark">
+
+    <!-- Apply saved / system theme before paint to avoid a flash -->
+    <script>
+        (function () {
+            var saved = null;
+            try { saved = localStorage.getItem('theme'); } catch (e) {}
+            var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (dark) document.documentElement.classList.add('dark');
+        })();
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' };</script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+
+    <!-- Site content (shared with cv.html) -->
+    <script src="content.js"></script>
+
+    <style>
+        body { font-family: 'Crimson Text', Georgia, serif; }
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+
+        @media (min-width: 1024px) {
+            .lg-vertical-text { writing-mode: vertical-rl; text-orientation: mixed; }
+        }
+
+        .hover-underline { position: relative; }
+        .hover-underline::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            width: 0; height: 2px; background: #ef4444; transition: width 0.3s ease;
+        }
+        .hover-underline:hover::after { width: 100%; }
+
+        .tab-active { border-color: #ef4444 !important; color: #1c1917 !important; }
+        .dark .tab-active { color: #fafaf9 !important; }
+
+        .bio-content a {
+            color: #2563eb; text-decoration: none;
+            background-image: linear-gradient(#ef4444, #ef4444);
+            background-size: 0% 2px; background-repeat: no-repeat; background-position: left bottom;
+            transition: color 0.2s ease, background-size 0.3s ease;
+        }
+        .dark .bio-content a { color: #60a5fa; }
+        .bio-content a:hover, .dark .bio-content a:hover { color: #ef4444; background-size: 100% 2px; }
+
+        /* ---------- Animations ---------- */
+
+        /* Slide in on scroll */
+        .js [data-reveal] {
+            opacity: 0;
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+            transition-delay: var(--d, 0ms);
+        }
+        .js [data-reveal="up"]    { transform: translateY(28px); }
+        .js [data-reveal="left"]  { transform: translateX(-40px); }
+        .js [data-reveal="right"] { transform: translateX(40px); }
+        .js [data-reveal].in { opacity: 1; transform: none; }
+
+        /* Name: letters drop in, then jump on hover */
+        .letter { display: inline-block; animation: drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: var(--d, 0ms); }
+        .letter.jump { animation: jump 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes drop { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: none; } }
+        @keyframes jump {
+            0% { transform: none; } 35% { transform: translateY(-16px) rotate(-4deg); }
+            65% { transform: translateY(2px); } 100% { transform: none; }
+        }
+
+        /* Avatar: gentle float, hop on click */
+        .avatar-float { animation: float 4s ease-in-out infinite; }
+        .avatar-hop { animation: hop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes hop {
+            0% { transform: translateY(0) scale(1, 1); } 20% { transform: translateY(0) scale(1.04, 0.94); }
+            50% { transform: translateY(-28px) scale(0.97, 1.04); } 80% { transform: translateY(0) scale(1.03, 0.97); }
+            100% { transform: translateY(0) scale(1, 1); }
+        }
+
+        /* Nav dot pulse */
+        .dot { display: inline-block; animation: pulse-dot 2.4s ease-in-out infinite; }
+        @keyframes pulse-dot { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
+
+        /* Tab content slide */
+        .tab-enter { animation: tab-in 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+        @keyframes tab-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+
+        /* Bouncy hover lift */
+        .lift { transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
+        .lift:hover { transform: translateY(-3px); }
+
+        /* Theme toggle icon spin */
+        #theme-toggle svg { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        #theme-toggle:hover svg { transform: rotate(40deg); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .js [data-reveal] { opacity: 1; transform: none; }
+        }
+
+        dialog::backdrop { background: rgba(12, 10, 9, 0.6); }
+    </style>
+</head>
+<body class="min-h-screen bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100 transition-colors duration-300">
+
+<!-- Navigation -->
+<nav id="main-nav" class="fixed top-0 w-full bg-stone-50/90 dark:bg-stone-950/85 backdrop-blur-sm z-50 border-b border-stone-200 dark:border-stone-800">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 py-5">
+        <div class="flex justify-between items-center">
+            <div class="font-display font-bold text-xl">
+                <a href="#about" class="flex items-center gap-2 text-stone-900 dark:text-stone-100">
+                    <span class="dot text-red-500">●</span> <span data-field="name"></span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4 md:gap-10">
+                <div class="hidden md:flex items-center space-x-10" id="nav-links"></div>
+                <button id="theme-toggle" class="p-2 rounded-md text-stone-700 hover:text-red-500 dark:text-stone-300 dark:hover:text-red-400 transition-colors" aria-label="Toggle dark mode">
+                    <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                </button>
+                <button id="mobile-menu-button" class="md:hidden text-stone-700 dark:text-stone-300" aria-label="Open menu">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-3 border-t border-stone-200 dark:border-stone-800 pt-4"></div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section id="about" class="pt-32 pb-20 px-6 sm:px-8 overflow-x-clip">
+    <div class="max-w-5xl mx-auto">
+        <div class="grid md:grid-cols-12 gap-x-12 gap-y-8 items-start">
+            <div class="md:col-span-4" data-reveal="left">
+                <div class="sticky top-28">
+                    <div class="avatar-float">
+                        <img id="avatar" alt="Portrait of Adrian Hu" title="Click me!"
+                             class="cursor-pointer select-none rounded-lg shadow-xl w-full max-w-xs mx-auto md:max-w-none border-4 border-white dark:border-stone-800 bg-white"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x500/ef4444/ffffff?text=AH';">
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-8">
+                <h1 id="hero-name" class="text-6xl md:text-7xl font-bold mb-4 leading-none" aria-label="Adrian Hu"></h1>
+                <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-stone-600 dark:text-stone-400 mb-8" data-reveal="up" style="--d:150ms">
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="building" class="w-4 h-4"></i>
+                        <span class="font-display text-sm md:text-base" data-field="affiliation"></span>
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i>
+                        <span class="font-display text-sm md:text-base" data-field="location"></span>
+                    </span>
+                </div>
+
+                <div id="bio" class="bio-content text-lg md:text-xl leading-relaxed space-y-3 text-stone-800 dark:text-stone-200" data-reveal="up" style="--d:250ms"></div>
+
+                <div id="hero-buttons" class="flex flex-wrap gap-4 mt-10" data-reveal="up" style="--d:350ms"></div>
+            </div>
+        </div>
+
+        <!-- News -->
+        <div class="mt-24" data-reveal="up">
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white dark:bg-stone-900 p-8 border-2 border-stone-900 dark:border-stone-300 shadow-[8px_8px_0px_0px_rgba(239,68,68,0.8)] transition-transform duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[11px_11px_0px_0px_rgba(239,68,68,0.85)]">
+                    <h3 class="font-display font-bold text-sm mb-6 text-red-500 tracking-widest">RECENT NEWS</h3>
+                    <div id="news" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Research Areas -->
+<section id="research" class="py-20 px-6 sm:px-8 bg-white dark:bg-stone-900 overflow-x-clip">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-2">
+                <h2 class="font-display font-bold text-sm text-red-500 lg-vertical-text lg:sticky lg:top-32 tracking-widest">RESEARCH AREAS</h2>
+            </div>
+            <div class="lg:col-span-10">
+                <div id="research-cards" class="grid md:grid-cols-2 gap-8"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Publications -->
+<section id="publications" class="py-20 px-6 sm:px-8 bg-stone-50 dark:bg-stone-950 overflow-x-clip">
+    <div class="max-w-4xl mx-auto">
+        <div class="mb-12 text-center" data-reveal="up">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">Publications</h2>
+            <p class="text-stone-600 dark:text-stone-400 text-lg md:text-xl">Papers under review and work in progress.</p>
+        </div>
+
+        <div class="flex justify-center gap-8 border-b-2 border-stone-200 dark:border-stone-800 mb-12" data-reveal="up">
+            <button data-tab="review" class="tab-button font-display font-medium pb-4 px-2 border-b-4 -mb-0.5 transition-colors border-transparent tab-active">Under Review</button>
+            <button data-tab="progress" class="tab-button font-display font-medium pb-4 px-2 border-b-4 -mb-0.5 transition-colors border-transparent text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 hover:border-red-300">In Progress</button>
+        </div>
+
+        <div id="review" class="tab-content space-y-8"></div>
+        <div id="progress" class="tab-content space-y-8 hidden"></div>
+    </div>
+</section>
+
+<!-- Coursework -->
+<section id="courses" class="py-20 px-6 sm:px-8 bg-white dark:bg-stone-900 overflow-x-clip">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-2">
+                <h2 class="font-display font-bold text-sm text-red-500 lg-vertical-text lg:sticky lg:top-32 tracking-widest">COURSEWORK</h2>
+            </div>
+            <div class="lg:col-span-10 space-y-12">
+                <div>
+                    <div id="current-term" class="font-display text-xs font-bold text-red-500 tracking-widest mb-4"></div>
+                    <div id="current-courses" class="grid sm:grid-cols-2 gap-4"></div>
+                </div>
+                <div>
+                    <div class="font-display text-xs font-bold text-red-500 tracking-widest mb-4">COMPLETED</div>
+                    <div id="completed-courses" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer id="contact" class="py-20 px-6 sm:px-8 bg-stone-900 dark:bg-black text-stone-100">
+    <div class="max-w-4xl mx-auto text-center" data-reveal="up">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">Get in Touch</h2>
+        <p id="contact-blurb" class="text-stone-300 mb-8 leading-relaxed max-w-2xl mx-auto text-lg md:text-xl"></p>
+        <div class="flex justify-center flex-wrap gap-6 items-center">
+            <a id="footer-email" class="inline-flex items-center gap-3 text-stone-100 hover:text-red-400 transition-colors text-lg md:text-xl">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+                <span data-field="email"></span>
+            </a>
+            <span class="text-stone-600 hidden sm:inline">|</span>
+            <div class="flex items-center gap-3 text-stone-100 text-lg md:text-xl">
+                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                <span>Ann Arbor, MI</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="py-6 px-8 bg-stone-950 dark:bg-black dark:border-t dark:border-stone-900 text-stone-400">
+    <div class="max-w-7xl mx-auto text-center">
+        <p class="font-display text-sm">© <span id="year"></span> <span data-field="name"></span> · Built with Tailwind CSS</p>
+    </div>
+</div>
+
+<!-- CV preview -->
+<dialog id="cv-dialog" class="w-[min(94vw,60rem)] h-[90vh] max-h-[90vh] p-0 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 shadow-2xl">
+    <div class="flex h-full flex-col">
+        <div class="flex items-center justify-between gap-4 border-b border-stone-200 dark:border-stone-800 px-5 py-4">
+            <div>
+                <p class="font-display text-xs font-bold tracking-widest text-red-500">CV PREVIEW</p>
+                <p class="text-sm text-stone-500 dark:text-stone-400 font-display mt-1">Generated from this page's content</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="cv.html" target="_blank" class="inline-flex items-center gap-2 rounded-md border border-stone-300 dark:border-stone-700 px-3 py-2 font-display text-xs font-medium text-stone-700 dark:text-stone-300 hover:border-stone-900 dark:hover:border-stone-300 transition-colors">
+                    <i data-lucide="external-link" class="h-4 w-4"></i> Open
+                </a>
+                <button id="cv-download" type="button" class="inline-flex items-center gap-2 rounded-md bg-red-500 px-3 py-2 font-display text-xs font-medium text-white hover:bg-red-600 transition-colors">
+                    <i data-lucide="download" class="h-4 w-4"></i> Download PDF
+                </button>
+                <button id="cv-close" type="button" class="rounded-md p-2 text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 hover:text-stone-900 dark:hover:text-stone-100 transition-colors" aria-label="Close CV preview">
+                    <i data-lucide="x" class="h-5 w-5"></i>
+                </button>
+            </div>
+        </div>
+        <div class="flex-1 min-h-0 bg-stone-200 dark:bg-stone-800">
+            <iframe id="cv-frame" title="CV preview" class="w-full h-full border-0"></iframe>
+        </div>
+    </div>
+</dialog>
+
+<script>
+(function () {
+    const S = window.SITE;
+    const $ = (id) => document.getElementById(id);
+    const NAV = [['about', 'about'], ['research', 'research'], ['publications', 'pubs'], ['courses', 'courses'], ['contact', 'contact']];
+    const ICONS = {
+        github: '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>',
+        linkedin: '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
+    };
+
+    // ---------- Render ----------
+    document.querySelectorAll('[data-field]').forEach(el => { el.textContent = S[el.dataset.field]; });
+    document.title = `${S.name} | ${S.role}`;
+    $('year').textContent = new Date().getFullYear();
+    $('avatar').src = S.avatar;
+    $('footer-email').href = `mailto:${S.email}`;
+    $('contact-blurb').textContent = S.contactBlurb;
+
+    $('nav-links').innerHTML = NAV.map(([id, label]) =>
+        `<a href="#${id}" class="hover-underline font-display text-sm font-medium text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-white">./${label}</a>`).join('');
+    $('mobile-menu').innerHTML = NAV.map(([id, label]) =>
+        `<a href="#${id}" class="block font-display text-stone-700 dark:text-stone-300 hover:text-red-500">./${label}</a>`).join('');
+
+    $('hero-name').innerHTML = [...S.name].map((ch, i) =>
+        ch === ' ' ? ' ' : `<span class="letter" aria-hidden="true" style="--d:${i * 45}ms">${ch}</span>`).join('');
+
+    $('bio').innerHTML = S.bio.map(p => `<p>${p}</p>`).join('');
+
+    const outline = 'border-2 border-stone-300 dark:border-stone-700 text-stone-700 dark:text-stone-300 hover:border-stone-900 dark:hover:border-stone-300';
+    const btn = (href, icon, label, cls, extra = '') =>
+        `<a href="${href}" ${extra} class="lift inline-flex items-center gap-2 px-5 py-2.5 ${cls} font-display text-sm md:text-base font-medium rounded-md shadow-md">${icon} ${label}</a>`;
+    $('hero-buttons').innerHTML = [
+        btn(`mailto:${S.email}`, '<i data-lucide="mail" class="w-4 h-4"></i>', 'Email', 'bg-red-500 text-white hover:bg-red-600 border-2 border-red-500 hover:border-red-600'),
+        S.links.scholar && btn(S.links.scholar, '<i data-lucide="graduation-cap" class="w-4 h-4"></i>', 'Scholar', outline),
+        S.links.github && btn(S.links.github, ICONS.github, 'GitHub', outline),
+        S.links.linkedin && btn(S.links.linkedin, ICONS.linkedin, 'LinkedIn', outline),
+        btn('cv.html', '<i data-lucide="file-text" class="w-4 h-4"></i>', 'CV', 'border-2 border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-white dark:border-stone-200 dark:text-stone-200 dark:hover:bg-stone-200 dark:hover:text-stone-900', 'id="cv-button"'),
+    ].filter(Boolean).join('');
+
+    $('news').innerHTML = S.news.map(n => `
+        <div class="flex gap-4 pb-4 border-b border-stone-200 dark:border-stone-800 last:border-0">
+            <span class="font-display text-xs md:text-sm text-stone-500 whitespace-nowrap pt-1">${n.date}</span>
+            <span class="text-base md:text-lg text-stone-700 dark:text-stone-300">${n.text}</span>
+        </div>`).join('');
+
+    $('research-cards').innerHTML = S.research.map((r, i) => `
+        <div data-reveal="${i % 2 ? 'right' : 'left'}" style="--d:${i * 120}ms">
+            <div class="lift h-full p-8 bg-stone-50 dark:bg-stone-950 border-l-4 border-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-r-lg">
+                <div class="font-display text-xs font-bold text-red-500 tracking-widest mb-2">${r.label}</div>
+                <h3 class="font-display font-bold text-xl md:text-2xl mb-3">${r.title}</h3>
+                <p class="text-stone-600 dark:text-stone-400 text-base md:text-lg leading-relaxed mb-4">${r.text}</p>
+                <div class="flex flex-wrap gap-2">
+                    ${r.tags.map(t => `<span class="px-2 py-1 bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300 font-display text-xs rounded">${t}</span>`).join('')}
+                </div>
+            </div>
+        </div>`).join('');
+
+    const iconBtn = (href, icon, title) => `
+        <a href="${href}" title="${title}" class="lift flex-1 sm:flex-none flex items-center justify-center p-2.5 border border-stone-300 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-md text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100">
+            <i data-lucide="${icon}" class="w-[18px] h-[18px]"></i>
+        </a>`;
+    const pubCard = (p, i) => `
+        <div data-reveal="up" style="--d:${i * 100}ms">
+        <div class="lift bg-white dark:bg-stone-900 p-6 sm:p-8 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-600 hover:shadow-md rounded-lg">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                <div class="flex-1">
+                    <span class="inline-block px-3 py-1 ${p.status === 'review' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' : 'bg-stone-200 text-stone-700 dark:bg-stone-800 dark:text-stone-300'} font-display text-xs font-medium mb-3 rounded-full">
+                        ${p.status === 'review' ? 'UNDER REVIEW' : 'IN PROGRESS'}
+                    </span>
+                    <h3 class="text-xl md:text-2xl font-semibold mb-3 text-stone-900 dark:text-stone-100 leading-snug">
+                        ${p.link ? `<a href="${p.link}" class="hover:text-red-600 dark:hover:text-red-400 transition-colors">${p.title}</a>` : p.title}
+                    </h3>
+                    <p class="text-stone-600 dark:text-stone-400 mb-3 text-base md:text-lg">
+                        ${p.authors.map(a => a === S.name ? `<strong class="text-stone-900 dark:text-stone-100">${a}</strong>` : a).join(', ')}
+                    </p>
+                    <p class="font-display text-sm text-stone-500"><em>${p.venue}</em></p>
+                </div>
+                ${p.pdf || p.link ? `<div class="flex-shrink-0 flex flex-row gap-2 sm:gap-3">
+                    ${p.pdf ? iconBtn(p.pdf, 'file-text', 'PDF') : ''}
+                    ${p.link ? iconBtn(p.link, 'external-link', 'Link') : ''}
+                </div>` : ''}
+            </div>
+        </div>
+        </div>`;
+    $('review').innerHTML = S.publications.filter(p => p.status === 'review').map(pubCard).join('');
+    $('progress').innerHTML = S.publications.filter(p => p.status === 'progress').map(pubCard).join('');
+
+    $('current-term').textContent = `IN PROGRESS · ${S.courses.currentTerm.toUpperCase()}`;
+    $('current-courses').innerHTML = S.courses.current.map(([code, name], i) => `
+        <div data-reveal="up" style="--d:${i * 70}ms">
+            <div class="lift h-full p-5 bg-stone-50 dark:bg-stone-950 border-l-4 border-red-500 rounded-r-lg hover:bg-red-50 dark:hover:bg-red-950/30">
+                <div class="font-display text-xs font-bold text-stone-500 tracking-widest mb-1">${code}</div>
+                <div class="text-lg md:text-xl font-semibold leading-snug">${name}</div>
+            </div>
+        </div>`).join('');
+    $('completed-courses').innerHTML = S.courses.completed.map(([code, name], i) => `
+        <div data-reveal="up" style="--d:${(i % 3) * 60}ms" class="flex gap-4 py-3 border-b border-stone-200 dark:border-stone-800">
+            <span class="font-display text-xs text-stone-500 whitespace-nowrap pt-1 w-20 shrink-0">${code}</span>
+            <span class="text-base md:text-lg text-stone-700 dark:text-stone-300">${name}</span>
+        </div>`).join('');
+
+    lucide.createIcons();
+
+    // ---------- Scroll reveal ----------
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach(el => io.observe(el));
+    } else {
+        revealEls.forEach(el => el.classList.add('in'));
+    }
+
+    // ---------- Jumping letters & avatar ----------
+    document.querySelectorAll('.letter').forEach(l => {
+        l.addEventListener('mouseenter', () => {
+            l.classList.remove('jump'); void l.offsetWidth; l.classList.add('jump');
+        });
+        l.addEventListener('animationend', () => l.classList.remove('jump'));
+    });
+    const avatar = $('avatar');
+    avatar.addEventListener('click', () => {
+        avatar.classList.remove('avatar-hop'); void avatar.offsetWidth; avatar.classList.add('avatar-hop');
+    });
+    avatar.addEventListener('animationend', () => avatar.classList.remove('avatar-hop'));
+
+    // ---------- Theme toggle ----------
+    $('theme-toggle').addEventListener('click', () => {
+        const dark = document.documentElement.classList.toggle('dark');
+        try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        let saved = null;
+        try { saved = localStorage.getItem('theme'); } catch (err) {}
+        if (!saved) document.documentElement.classList.toggle('dark', e.matches);
+    });
+
+    // ---------- Mobile menu ----------
+    const menuBtn = $('mobile-menu-button'), menu = $('mobile-menu');
+    const setMenu = (open) => {
+        menu.classList.toggle('hidden', !open);
+        menuBtn.innerHTML = open ? '<i data-lucide="x"></i>' : '<i data-lucide="menu"></i>';
+        lucide.createIcons();
+    };
+    menuBtn.addEventListener('click', () => setMenu(menu.classList.contains('hidden')));
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+    // ---------- Publication tabs ----------
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const inactive = ['text-stone-500', 'hover:text-stone-700', 'dark:hover:text-stone-300', 'hover:border-red-300'];
+    tabButtons.forEach(button => button.addEventListener('click', () => {
+        tabButtons.forEach(b => { b.classList.remove('tab-active'); b.classList.add(...inactive); });
+        button.classList.add('tab-active');
+        button.classList.remove(...inactive);
+        document.querySelectorAll('.tab-content').forEach(c => {
+            const show = c.id === button.dataset.tab;
+            c.classList.toggle('hidden', !show);
+            if (show) {
+                c.classList.remove('tab-enter'); void c.offsetWidth; c.classList.add('tab-enter');
+                c.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('in'));
+            }
+        });
+    }));
+
+    // ---------- CV preview ----------
+    const dialog = $('cv-dialog'), frame = $('cv-frame');
+    $('cv-button').addEventListener('click', e => {
+        if (typeof dialog.showModal !== 'function') return; // fall back to opening cv.html
+        e.preventDefault();
+        if (!frame.src) frame.src = 'cv.html?embed=1';
+        dialog.showModal();
+    });
+    $('cv-close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+    $('cv-download').addEventListener('click', () => {
+        // Opens the browser's print dialog for the CV; choose "Save as PDF".
+        try { frame.contentWindow.focus(); frame.contentWindow.print(); }
+        catch (err) { window.open('cv.html?print=1', '_blank'); }
+    });
+})();
+</script>
+</body>
+</html>
